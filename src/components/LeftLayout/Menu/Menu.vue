@@ -5,7 +5,7 @@
         <div class="menu-content">
             <Topic v-for="topic in topics" :topic="topic" :key="topic" />
         </div>
-        <div class="menu-footer-container"> <span class="menu-footer-text"> DISMISS ALL </span> </div>
+        <div class="menu-footer-container"> <span class="menu-footer-text"> <b-icon class="dismiss-all-icon" icon="x-circle-fill"></b-icon> Dismiss all </span> </div>
         </div>
     </transition>
 </template>
@@ -57,6 +57,7 @@ export default {
 .menu-container {
     padding-top: 10px;
     height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
     width: 350px;
     background: black;
     position: fixed;
@@ -67,7 +68,8 @@ export default {
 .menu-header-container {
     display: flex;
     justify-content: center;
-    height: 5vh;
+    height: 6vh;
+    height: calc(var(--vh, 1vh) * 6);
     position: absolute;
     background: black;
     z-index: 10;
@@ -78,13 +80,16 @@ export default {
     color: white;
     font-size: 20px;
     font-weight: 500;
+    align-self: center;
 }
 
 .menu-content {
     overflow-y: auto;
     position: absolute;
-    height: 90vh;
-    top: 6vh;
+    height: 88vh;
+    height: calc(var(--vh, 1vh) * 88);
+    top: 7vh;
+    top: calc(var(--vh, 1vh) * 7);
     -ms-overflow-style: none; 
     scrollbar-width: none; 
 }
@@ -94,7 +99,8 @@ export default {
 }
 
 .menu-footer-container {
-    height: 5vh;
+    height: 6vh;
+    height: calc(var(--vh, 1vh) * 6);
     display: flex;
     justify-content: center;
     position: absolute;
@@ -107,6 +113,10 @@ export default {
 .menu-footer-text {
     color: white; 
     margin-top: 7px;
+    align-self: center;
 }
 
+.dismiss-all-icon {
+    color: orange;
+}
 </style>

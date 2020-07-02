@@ -60,21 +60,28 @@ export default {
                 this.desactivateMenu();
             }   
         },
-        //Method for listener, will activate the menu if the app resized to a width > 1024
+        //Method for listener, will activate the menu if the app is oriented landscape
         handleResize() {
             this.activateMenuOnLandscape();
+            this.recalculateUnitsInViewport();
         },
+        //Get viewport height and multiply it by 1% to get actual value for vh unit.
+        recalculateUnitsInViewport() {
+        let vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+        }
     },
     //Setup listener on created
     created() {
         this.activateMenu();
-        window.addEventListener('resize', this.handleResize);
-        window.addEventListener('orientationchange', this.handleOrientation);
+        this.recalculateUnitsInViewport();
+        window.addEventListener('resize', this.$_.debounce(this.handleResize, 200));
+        window.addEventListener('orientationchange', this.$_.debounce(this.handleOrientation, 200));
     },
     //Remove listeners on before destroyed
     beforeDestroy: function () {
-        window.removeEventListener('resize', this.handleResize);
-        window.removeEventListener('orientationchange', this.handleOrientation);
+        window.removeEventListener('resize',  this.$_.debounce(this.handleResize, 200));
+        window.removeEventListener('orientationchange',  this.$_.debounce(this.handleOrientation, 200));
     }
 }
 </script>

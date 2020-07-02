@@ -1,17 +1,17 @@
 <template>
      <b-container class="custom-container" v-hammer:swipe.left="onSwipeLeft">
             <b-row class="custom-row">
-                <b-col cols="1" class="view-badge"> O </b-col>
+                <b-col cols="1" class="view-badge"> <b-icon icon="circle-fill"></b-icon> </b-col>
                 <b-col cols="6"> <span class="author-text"> {{ topic.data.author }} </span> </b-col>
                 <b-col cols="4" class="created-text-container"> <span class="created-text"> {{ `${timeSince(topic.data.created)} ago` }} </span> </b-col>
             </b-row>
             <b-row class="custom-row">
-                <b-col cols="3"> <img class="topic-thumbnail" :src="topic.data.thumbnail" /> </b-col>
+                <b-col cols="3" class="image-container"> <img class="topic-thumbnail" :src="topic.data.thumbnail ? topic.data.thumbnail : '/static/no-thumbnail.png'" /> </b-col>
                 <b-col cols="7" class="title-text-container"><span class="title-text"> {{ topic.data.title }} </span></b-col>
             </b-row>
             <b-row>
-                <b-col cols="6"> <span class="white-text"> X Dismiss Post </span> </b-col>
-                <b-col cols="6" class="comments-container"> <span class="white-text"> {{ `${topic.data.num_comments} comments`}} </span> </b-col>
+                <b-col cols="6"> <span class="white-text"> <b-icon class="dismiss-icon" icon="x-circle"></b-icon> Dismiss </span> </b-col>
+                <b-col cols="6" class="comments-container"> <span class="comments-text"> {{ `${topic.data.num_comments} comments`}} </span> </b-col>
             </b-row>
             <hr class="custom-hr">
         </b-container>
@@ -92,7 +92,7 @@ export default {
 }
 
 .view-badge {
-    color: blue;
+    color: #5475d2;
 }
 
 .author-text {
@@ -101,7 +101,7 @@ export default {
 }
 
 .created-text {
-    color: white; 
+    color: #c7c5c5; 
     font-size: 12px;
 }
 
@@ -111,18 +111,27 @@ export default {
 }
 
 .topic-thumbnail {
-    width: 60px; 
-    height: 60px;
+    width: 100%;
+    height: 100%;
+    align-self: center;
+    object-fit: cover;
+}
+
+.image-container {
+    display: flex;
+    justify-content: center;
 }
 
 .title-text {
     color: white;
     font-size: 12px;
     display: block;
+    align-self: center;
 }
 
 .title-text-container {
     padding: 0px;
+    display: flex;
 }
 
 .white-text {
@@ -137,5 +146,14 @@ export default {
 .comments-container {
     text-align: right;
     padding-right: 30px;
+}
+
+.dismiss-icon {
+    color: orange;
+}
+
+.comments-text {
+    color: orange;
+    font-size: 12px;
 }
 </style>
