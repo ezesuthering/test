@@ -34,9 +34,7 @@ export default {
         },
         //If orientation is portrait will desactivate the menu
         onSwipeLeft() {
-            if (window.innerWidth < window.innerHeight) {
-                this.desactivateMenu();
-            }   
+            this.desactivateMenuOnPortrait();
         },
         //Dispatch activateMenu action from menu module
         activateMenu() {
@@ -50,15 +48,26 @@ export default {
         handleOrientation() {
             this.activateMenu();
         },
-        //Method for listener, will activate the menu if the app resized to a width > 1024
-        handleResize() {
-            if(window.innerWidth > 1024) {
+        //If orientation is landscape will activate the menu
+        activateMenuOnLandscape() {
+            if(window.innerWidth > window.innerHeight) {
                 this.activateMenu();
             }
+        },
+        //If orientation is portrait will desactivate the menu
+        desactivateMenuOnPortrait() {
+            if (window.innerWidth < window.innerHeight) {
+                this.desactivateMenu();
+            }   
+        },
+        //Method for listener, will activate the menu if the app resized to a width > 1024
+        handleResize() {
+            this.activateMenuOnLandscape();
         },
     },
     //Setup listener on created
     created() {
+        this.activateMenu();
         window.addEventListener('resize', this.handleResize);
         window.addEventListener('orientationchange', this.handleOrientation);
     },
@@ -71,7 +80,5 @@ export default {
 </script>
 
 <style scoped>
-.left-layout-container {
 
-}
 </style>
