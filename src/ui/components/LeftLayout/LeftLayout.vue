@@ -1,13 +1,15 @@
 <template>
-<div class="left-layout-container">
+<div :class=" orientationPortrait ? 'left-layout-container-portrait' : 'left-layout-container-landscape'" v-hammer:swipe.left="onSwipeLeft">
     <Treshold v-show="!active" v-hammer:swipe.right="onSwipeRight" />
-    <Menu v-show="active" v-hammer:swipe.left="onSwipeLeft" />
+    <keep-alive>
+    <Menu v-show="active"  />
+    </keep-alive>
 </div>
 </template>
 
 <script>
-import Treshold from '@/components/LeftLayout/Menu/Treshold'
-import Menu from '@/components/LeftLayout/Menu/Menu'
+import Treshold from '@/ui/components/LeftLayout/Menu/Treshold'
+import Menu from '@/ui/components/LeftLayout/Menu/Menu'
 
 //LeftLayout component
 export default {
@@ -26,6 +28,11 @@ export default {
     components: {
         Treshold,
         Menu
+    },
+    data: () => {
+        return {
+            orientationPortrait: false
+        }
     },
     methods: {
         //Activate the menu
@@ -46,6 +53,7 @@ export default {
         },
         //Method for listener, will activate the menu
         handleOrientation() {
+            this.orientationPortrait = window.innerWidth < window.innerHeight;
             this.activateMenu();
         },
         //If orientation is landscape will activate the menu
@@ -62,30 +70,35 @@ export default {
         },
         //Method for listener, will activate the menu if the app is oriented landscape
         handleResize() {
+            this.orientationPortrait = window.innerWidth < window.innerHeight;
             this.activateMenuOnLandscape();
-            this.recalculateUnitsInViewport();
-        },
-        //Get viewport height and multiply it by 1% to get actual value for vh unit.
-        recalculateUnitsInViewport() {
-        let vh = window.innerHeight * 0.01;
-        document.documentElement.style.setProperty('--vh', `${vh}px`);
         }
     },
     //Setup listener on created
     created() {
         this.activateMenu();
-        this.recalculateUnitsInViewport();
+        this.handleResize();
         window.addEventListener('resize', this.$_.debounce(this.handleResize, 200));
-        window.addEventListener('orientationchange', this.$_.debounce(this.handleOrientation, 200));
+        window.addEventListener('orientationchange', this.handleOrientation);
     },
     //Remove listeners on before destroyed
     beforeDestroy: function () {
-        window.removeEventListener('resize',  this.$_.debounce(this.handleResize, 200));
-        window.removeEventListener('orientationchange',  this.$_.debounce(this.handleOrientation, 200));
+        window.removeEventListener('resize',  this.$_.debounce(this.handleResize));
+        window.removeEventListener('orientationchange',  this.handleOrientation);
     }
 }
 </script>
 
 <style scoped>
+.left-layout-container-landscape {
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
+    width: 350px;
+}
 
+.left-layout-container-portrait {
+    width: 0px;
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
+}
 </style>

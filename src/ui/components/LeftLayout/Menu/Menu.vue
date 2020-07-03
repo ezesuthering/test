@@ -3,16 +3,17 @@
         <div class="menu-container">
             <div style="" class="menu-header-container"> <span class="menu-header-text"> Reddit Posts </span> </div>
         <div class="menu-content">
-            <Topic v-for="topic in topics" :topic="topic" :key="topic" />
+            <transition-group name="list">
+            <Topic :key="topic.data.id" v-for="topic in topics" :topic="topic"  />
+            </transition-group>
         </div>
-        <div class="menu-footer-container"> <span class="menu-footer-text"> <b-icon class="dismiss-all-icon" icon="x-circle-fill"></b-icon> Dismiss all </span> </div>
+        <div class="menu-footer-container" @click.stop="dismissAllTopics"> <span class="menu-footer-text"> <b-icon class="dismiss-all-icon" icon="x-circle-fill"></b-icon> Dismiss all </span> </div>
         </div>
     </transition>
 </template>
 
 <script>
-import data from './../data';
-import Topic from '@/components/LeftLayout/Menu/Topic'
+import Topic from '@/ui/components/LeftLayout/Menu/Topic'
 
 //Menu component
 export default {
@@ -30,9 +31,13 @@ export default {
             }
         }
     },
-    created() {
-        this.$store.dispatch('topics/loadTopics', data.data.children);
+    methods: {
+        //Dispatch dismissAllTopics mutation from topics module
+        dismissAllTopics() {
+                this.$store.dispatch('topics/dismissAllTopics');
+        }
     }
+   
 }
 </script>
 
@@ -118,5 +123,13 @@ export default {
 
 .dismiss-all-icon {
     color: orange;
+}
+
+.list-enter-active, .list-leave-active {
+  transition: all 0.4s;
+}
+.list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  transform:translatex(-100%);
 }
 </style>
