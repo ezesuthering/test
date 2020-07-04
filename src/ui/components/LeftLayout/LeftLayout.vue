@@ -1,10 +1,8 @@
 <template>
-<div :class=" orientationPortrait ? 'left-layout-container-portrait' : 'left-layout-container-landscape'" v-hammer:swipe.left="onSwipeLeft">
-    <Treshold v-show="!active" v-hammer:swipe.right="onSwipeRight" />
-    <keep-alive>
-    <Menu v-show="active"  />
-    </keep-alive>
-</div>
+    <div :class=" orientationPortrait ? 'left-layout-container-portrait' : 'left-layout-container-landscape'" v-hammer:swipe.left="onSwipeLeft">
+        <Treshold v-show="!active" v-hammer:swipe.right="onSwipeRight" />
+        <Menu v-show="active"  />
+    </div>
 </template>
 
 <script>
@@ -94,11 +92,13 @@ export default {
     height: 100vh;
     height: calc(var(--vh, 1vh) * 100);
     width: 350px;
+    z-index: 1;
 }
 
 .left-layout-container-portrait {
     width: 0px;
     height: 100vh;
     height: calc(var(--vh, 1vh) * 100);
+    z-index: 1;
 }
 </style>

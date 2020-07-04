@@ -1,14 +1,15 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Details from '@/ui/views/Details'
+import Content from '@/ui/views/Content'
 
 Vue.use(VueRouter)
 
 //App routes
 const routes = [
   {
-    path: '/details/:id',
-    component: Details
+    name: 'content',
+    path: '/content/:id',
+    component: Content
   }
 ]
 

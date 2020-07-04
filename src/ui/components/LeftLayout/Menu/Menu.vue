@@ -2,12 +2,14 @@
     <transition name="slide" appear>
         <div class="menu-container">
             <div style="" class="menu-header-container"> <span class="menu-header-text"> Reddit Posts </span> </div>
-        <div class="menu-content">
-            <transition-group name="list">
-            <Topic :key="topic.data.id" v-for="topic in topics" :topic="topic"  />
-            </transition-group>
-        </div>
-        <div class="menu-footer-container" @click.stop="dismissAllTopics"> <span class="menu-footer-text"> <b-icon class="dismiss-all-icon" icon="x-circle-fill"></b-icon> Dismiss all </span> </div>
+            <div class="menu-content">
+                <transition-group name="list">
+                    <Topic :key="topic.data.id" v-for="topic in topics" :topic="topic"  />
+                </transition-group>
+            </div>
+            <div class="menu-footer-container" @click.stop="dismissAllTopics"> 
+                <span class="menu-footer-text"> <b-icon class="dismiss-all-icon" icon="x-circle-fill"></b-icon> Dismiss all </span> 
+            </div>
         </div>
     </transition>
 </template>
@@ -128,6 +130,7 @@ export default {
 .list-enter-active, .list-leave-active {
   transition: all 0.4s;
 }
+
 .list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
   opacity: 0;
   transform:translatex(-100%);

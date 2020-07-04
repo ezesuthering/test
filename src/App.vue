@@ -3,7 +3,7 @@
     <div class="app-container" v-if="!loading">
     <!-- Left layout with menu -->
     <LeftLayout />
-    <router-view/>  <!-- Right layout, Content view feed with post id -->
+      <router-view />  <!-- Right layout, Content view feed with post id -->
     </div>
    <div v-else class="loading-section-container">
     <b-spinner class="loading-spinner"></b-spinner>
@@ -69,4 +69,5 @@ export default {
 .loading-spinner {
   align-self: center;
 }
+
 </style>

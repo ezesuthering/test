@@ -1,16 +1,18 @@
 <template>
-     <b-container class="custom-container" @click.stop="markTopicAsRead(topic.data.id)" v-hammer:swipe.left="onSwipeLeft">
+     <b-container class="custom-container" @click.stop="openTopic(topic.data.id)" v-hammer:swipe.left="onSwipeLeft">
             <b-row class="custom-row">
-                <b-col cols="1" class="view-badge"> <b-icon v-if="!topic.visited" icon="circle-fill"></b-icon> </b-col>
-                <b-col cols="6"> <span class="author-text"> {{ topic.data.author }} </span> </b-col>
-                <b-col cols="4" class="created-text-container"> <span class="created-text"> {{ `${timeSince(topic.data.created)} ago` }} </span> </b-col>
+                <b-col cols="7">
+                    <b-icon class="view-badge" v-if="!topic.visited" icon="circle-fill"></b-icon> 
+                    <span :class="topic.visited ? 'visited' : ''" class="author-text"> {{ topic.data.author }} </span> 
+                </b-col>
+                <b-col cols="4" class="created-text-container"> <span class="created-text"> {{ `${timeSince(topic.data.created_utc)} ago` }} </span> </b-col>
             </b-row>
             <b-row class="custom-row">
-                <b-col cols="3" class="image-container"> <img class="topic-thumbnail" :src="getTopicThumbnail(topic)" /> </b-col>
-                <b-col cols="7" class="title-text-container"><span class="title-text"> {{ topic.data.title }} </span></b-col>
+                <b-col cols="3" class="image-container"> <img class="topic-thumbnail" @error="onBrokenThumbnail" :src="topic.data.thumbnail" /> </b-col>
+                <b-col cols="7" class="title-text-container"><span :class="topic.visited ? 'visited' : ''" class="title-text"> {{ topic.data.title }} </span></b-col>
             </b-row>
             <b-row>
-                <b-col cols="6" @click.stop="dismissTopic(topic.data.id)"> <span class="white-text"> <b-icon class="dismiss-icon" icon="x-circle"></b-icon> Dismiss </span> </b-col>
+                <b-col cols="6"> <span class="white-text dismiss-text" @click.stop="dismissTopic(topic.data.id)"> <b-icon class="dismiss-icon" icon="x-circle" @click.stop="dismissTopic(topic.data.id)"></b-icon> Dismiss </span> </b-col>
                 <b-col cols="6" class="comments-container"> <span class="comments-text"> {{ `${topic.data.num_comments} comments`}} </span> </b-col>
             </b-row>
             <hr class="custom-hr">
@@ -24,9 +26,19 @@ export default {
         topic: Object
     },
     methods: {
+        openTopic(id) {
+            this.$router.push({name: 'content', params: {id}}).catch(()=>{});
+            this.desactivateMenuOnPortrait();
+        },
+        onBrokenThumbnail(e) {
+            e.target.src = '/static/no-thumbnail.png';
+        },
         //Dismiss a topic
         //Param @id topic id
         dismissTopic(id) {
+            if(id == this.$route.params.id) {
+                this.$router.push('/')
+            }
             this.$store.dispatch('topics/dismissTopic', {id});
         },
         //Mark a topic as red
@@ -34,17 +46,6 @@ export default {
         markTopicAsRead(id) {
             this.$store.dispatch('topics/markTopicAsRead', {id});
         }, 
-        //Returns topic thumbnail or generic thumbnail otherwise
-        getTopicThumbnail(topic) {
-            if(topic.data.thumbnail) {
-                if(topic.data.thumbnail == 'default' || topic.data.thumbnail == 'self') {
-                    return '/static/no-thumbnail.png'
-                }
-                return topic.data.thumbnail;
-            } else {
-                return '/static/no-thumbnail.png'
-            }
-        },
         //Param @date date to convert
         //Return the time ago from the date passed by parameter
         timeSince(date) {
@@ -103,9 +104,15 @@ export default {
 <style scoped>
 .custom-container {
     padding-bottom: 10px;
+    padding-top: 10px;
     padding-right: 0px;
     overflow-x: hidden;
     touch-action: pan-y !important;
+}
+
+.custom-container:active {
+ opacity: 0;
+ transition: 0.5s;
 }
 
 .custom-row {
@@ -176,5 +183,17 @@ export default {
 .comments-text {
     color: orange;
     font-size: 12px;
+}
+
+.visited {
+    color: #c7c5c5;
+}
+
+.dismiss-text:hover {
+    cursor: pointer;
+}
+
+.dismiss-icon:hover {
+    cursor: pointer;
 }
 </style>

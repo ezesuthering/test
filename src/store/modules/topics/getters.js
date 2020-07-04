@@ -9,6 +9,13 @@ export default {
     //Return nextPageId value
     getNextPageId(state) {
         return state.nextPageId;
+    },
+
+    getTopicById(state, id) {
+        return state.topics.filter(e => {
+            return e.id = id;
+        })
     }
+
 
 }
