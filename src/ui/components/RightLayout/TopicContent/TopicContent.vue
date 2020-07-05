@@ -10,7 +10,7 @@
         </b-row>
         <b-row> 
             <b-col cols="12" class="topic-flex-content-container"> 
-                <span> {{ topic.data.title }} </span> 
+                <span class="topic-title-content"> {{ topic.data.title }} </span> 
             </b-col> 
         </b-row>
     </b-container>
@@ -42,9 +42,6 @@ export default {
     width: 100%;
     max-width: 400px;
     height: auto;
-    /* max-height: 70vh;
-    max-height: calc(var(--vh, 1vh) * 70); */
-
 }
 
 .topic-flex-content-container {
@@ -55,5 +52,9 @@ export default {
 
 .topic-author {
     font-weight: bold;
+}
+
+.topic-title-content {
+    text-align: center;
 }
 </style>

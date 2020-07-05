@@ -104,7 +104,6 @@ export default {
 <style scoped>
 .custom-container {
     padding-bottom: 10px;
-    padding-top: 10px;
     padding-right: 0px;
     overflow-x: hidden;
     touch-action: pan-y !important;

@@ -1,16 +1,16 @@
 <template>
-    <div class="treshold"></div>
+    <div class="threshold"></div>
 </template>
 
 <script>
 //Treshold component
 export default {
-    name: 'Treshold'
+    name: 'Threshold'
 }
 </script>
 
 <style scoped>
-.treshold {
+.threshold {
     height: 100vh;
     height: calc(var(--vh, 1vh) * 100);
     width: 100px;

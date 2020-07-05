@@ -11,7 +11,7 @@ class RedditServices {
     getTopPosts(payload) {
         return new Promise((resolve, reject) => {
             let baseUrl = store.getters['config/getRedditApiBaseUrl'];
-            axios.get(`${baseUrl}/r/all/top.json?limit=${payload.limit}`)
+            axios.get(`${baseUrl}/r/all/top.json${payload.after ? '?after=' + payload.after : ''}`)
                 .then((r) => {
                     resolve(r)
                 }).catch((e) => {

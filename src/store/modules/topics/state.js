@@ -1,5 +1,6 @@
 //Menu module state
 export default {
     topics: [],
-    nextPageId: ''
+    nextPageId: '',
+    pageNumber: 0
 }

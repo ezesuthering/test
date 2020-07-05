@@ -8,6 +8,11 @@ export default {
         state.topics = value;
     },
 
+    //Push value to topics array
+    setMoreTopics(state, value) {
+        state.topics = [...state.topics, ...value];
+    },
+
     //Set nextPageId value
     setNextPageId(state, value) {
         state.nextPageId = value;
@@ -24,5 +29,9 @@ export default {
     setTopicVisited(state, value) {
         Vue.set(state.topics[value], 'visited', true)
     },
+
+    setPageNumber(state, value) {
+        state.pageNumber = value;
+    }
 
 }

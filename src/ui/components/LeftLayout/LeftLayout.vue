@@ -1,12 +1,12 @@
 <template>
     <div :class=" orientationPortrait ? 'left-layout-container-portrait' : 'left-layout-container-landscape'" v-hammer:swipe.left="onSwipeLeft">
-        <Treshold v-show="!active" v-hammer:swipe.right="onSwipeRight" />
+        <Threshold v-show="!active" v-hammer:swipe.right="onSwipeRight" />
         <Menu v-show="active"  />
     </div>
 </template>
 
 <script>
-import Treshold from '@/ui/components/LeftLayout/Menu/Treshold'
+import Threshold from '@/ui/components/LeftLayout/Menu/Threshold'
 import Menu from '@/ui/components/LeftLayout/Menu/Menu'
 
 //LeftLayout component
@@ -24,7 +24,7 @@ export default {
         }
     },
     components: {
-        Treshold,
+        Threshold,
         Menu
     },
     data: () => {

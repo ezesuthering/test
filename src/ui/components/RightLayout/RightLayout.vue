@@ -22,6 +22,12 @@ export default {
         readTopic() {
                 let id = this.$route.params.id;
                 let topic = this.getTopicById(id);
+                if(!topic) {
+                    this.$router.push('/')
+                     if (window.innerWidth < window.innerHeight) {
+                            this.$store.dispatch('menu/activateMenu')
+                         }   
+                }
                 this.markTopicAsRead(id);
                 return topic;
         },

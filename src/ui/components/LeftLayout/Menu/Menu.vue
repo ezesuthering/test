@@ -6,6 +6,10 @@
                 <transition-group name="list">
                     <Topic :key="topic.data.id" v-for="topic in topics" :topic="topic"  />
                 </transition-group>
+                <intersect @enter="fetchMoreTopics">
+                    <div class="load-more-intersect">
+                    </div>
+                </intersect>
             </div>
             <div class="menu-footer-container" @click.stop="dismissAllTopics"> 
                 <span class="menu-footer-text"> <b-icon class="dismiss-all-icon" icon="x-circle-fill"></b-icon> Dismiss all </span> 
@@ -16,12 +20,19 @@
 
 <script>
 import Topic from '@/ui/components/LeftLayout/Menu/Topic'
+  import Intersect from 'vue-intersect'
 
 //Menu component
 export default {
     name: 'Menu',
     components: {
-        Topic
+        Topic,
+        Intersect
+    },
+    data: () => {
+        return {
+            end: false
+        }
     },
     computed: {
         topics: {
@@ -34,9 +45,21 @@ export default {
         }
     },
     methods: {
+        //Dispatch fetchMoreTopics action from topics module
+        fetchMoreTopics() {
+            this.$store.dispatch('topics/fetchMoreTopics', {})
+        },
         //Dispatch dismissAllTopics mutation from topics module
         dismissAllTopics() {
                 this.$store.dispatch('topics/dismissAllTopics');
+        },
+        getMoreTopics() {
+            this.loadingMore = true;
+            this.$store.dispatch('topics/getMoreTopics')
+                .then((r) => {
+                    this.end = r.end;
+                    this.loadingMore = false;
+                })
         }
     }
    
@@ -62,11 +85,10 @@ export default {
 }
 
 .menu-container {
-    padding-top: 10px;
     height: 100vh;
     height: calc(var(--vh, 1vh) * 100);
     width: 350px;
-    background: black;
+    background: #262424;
     position: fixed;
     top: 0;
     left: 0;
@@ -119,7 +141,6 @@ export default {
 
 .menu-footer-text {
     color: white; 
-    margin-top: 7px;
     align-self: center;
 }
 
@@ -131,8 +152,13 @@ export default {
   transition: all 0.4s;
 }
 
-.list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+.list-enter, .list-leave-to {
   opacity: 0;
   transform:translatex(-100%);
+}
+
+.load-more-intersect {
+    height: 5px; 
+    width: 350px;
 }
 </style>
