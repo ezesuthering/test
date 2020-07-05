@@ -41,9 +41,10 @@ export default {
   //Recalculate units in viewport
   //Set listener to recalculate units in viewport on resize
   created() {
-    this.$store.dispatch('config/refreshRedditApiBaseUrl');
     this.loading = true;
-    this.$store.dispatch('topics/fetchTopics', {}).then(() => { this.loading = false; })
+    this.$store.dispatch('config/refreshRedditApiBaseUrl').then(() => {
+      this.$store.dispatch('topics/fetchTopics', {}).then(() => { this.loading = false; })
+    });
     this.recalculateUnitsInViewport();
     window.addEventListener('resize', this.$_.debounce(this.recalculateUnitsInViewport, 200));
   },
