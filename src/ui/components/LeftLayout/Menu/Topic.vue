@@ -205,4 +205,9 @@ export default {
 .dismiss-icon:hover {
     cursor: pointer;
 }
+
+.topic-thumbnail:hover {
+    cursor: pointer;
+}
+
 </style>
