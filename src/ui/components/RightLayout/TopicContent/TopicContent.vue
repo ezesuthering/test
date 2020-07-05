@@ -59,8 +59,6 @@ export default {
 }
 
 .topic-image {
-    max-width: 70vh;
-    max-height: 70vh;
     max-width: calc(var(--vh, 1vh) * 70);
     max-height: calc(var(--vh, 1vh) * 70);
 }

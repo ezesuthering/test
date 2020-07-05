@@ -8,7 +8,7 @@
                 <b-col cols="4" class="created-text-container"> <span class="created-text"> {{ `${timeSince(topic.data.created_utc)} ago` }} </span> </b-col>
             </b-row>
             <b-row class="custom-row">
-                <b-col cols="3" class="image-container"> <img class="topic-thumbnail" @error="onBrokenThumbnail" :src="topic.data.thumbnail" /> </b-col>
+                <b-col cols="3" class="image-container"> <img @click.stop="goToFullSizeImage(topic)" class="topic-thumbnail" @error="onBrokenThumbnail" :src="topic.data.thumbnail" /> </b-col>
                 <b-col cols="7" class="title-text-container"><span :class="topic.visited ? 'visited' : ''" class="title-text"> {{ topic.data.title }} </span></b-col>
             </b-row>
             <b-row>
@@ -29,6 +29,16 @@ export default {
         openTopic(id) {
             this.$router.push({name: 'content', params: {id}}).catch(()=>{});
             this.desactivateMenuOnPortrait();
+        },
+        goToFullSizeImage(topic) {
+            if(topic.data.preview) {
+                    let fullImage = this.formatFullImageUrl(topic.data.preview.images[0].source.url);
+                    let win = window.open(fullImage, '_blank');
+                    win.focus();
+                } 
+        },
+        formatFullImageUrl(url) {
+            return url.replace('amp;s', 's').replace('amp;', '');
         },
         onBrokenThumbnail(e) {
             e.target.src = '/static/no-thumbnail.png';
