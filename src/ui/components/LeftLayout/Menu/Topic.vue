@@ -1,5 +1,5 @@
 <template>
-     <b-container class="custom-container" @click.stop="openTopic(topic.data.id)" v-hammer:swipe.left="onSwipeLeft">
+     <b-container class="custom-container" @click.stop="openTopic(topic.data.id)">
             <b-row class="custom-row">
                 <b-col cols="7">
                     <b-icon class="view-badge" v-if="!topic.visited" icon="circle-fill"></b-icon> 

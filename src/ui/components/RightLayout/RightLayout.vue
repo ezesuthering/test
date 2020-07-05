@@ -1,5 +1,7 @@
 <template>
-    <TopicContent :topic="topic" />
+    <div @click="desactivateMenuOnPortrait" class="right-layout-wrapper">
+    <TopicContent v-if="topic" :topic="topic" />
+    </div>
 </template>
 
 <script>
@@ -24,12 +26,27 @@ export default {
                 let topic = this.getTopicById(id);
                 if(!topic) {
                     this.$router.push('/')
-                     if (window.innerWidth < window.innerHeight) {
-                            this.$store.dispatch('menu/activateMenu')
-                         }   
+                    this.activateMenuOnPortrait()
+                    return;
                 }
-                this.markTopicAsRead(id);
+
+                if(this.$route.path !== '/') {
+                    this.markTopicAsRead(id);
+                }
+
+                if(topic.data.preview) {
+                    topic.fullImage = this.formatFullImageUrl(topic.data.preview.images[0].source.url)
+                } 
+
                 return topic;
+        },
+        formatFullImageUrl(url) {
+            return url.replace('amp;s', 's').replace('amp;', '');
+        },
+        activateMenuOnPortrait() {
+            if (window.innerWidth < window.innerHeight) {
+                            this.$store.dispatch('menu/activateMenu')
+            }  
         },
         getTopicById(id) {
             let topics = this.$store.getters['topics/getTopics'];
@@ -38,7 +55,22 @@ export default {
         },
         markTopicAsRead(id) {
             this.$store.dispatch('topics/markTopicAsRead', {id});
-        }
+        },
+        desactivateMenu() {
+            this.$store.dispatch('menu/desactivateMenu');
+        },
+        desactivateMenuOnPortrait() {
+            if (window.innerWidth < window.innerHeight) {
+                this.desactivateMenu();
+            }   
+        },
     }
 }
 </script>
+
+<style scoped>
+.right-layout-wrapper {
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
+}
+</style>

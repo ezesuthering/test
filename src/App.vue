@@ -43,9 +43,11 @@ export default {
   created() {
     this.loading = true;
     this.$store.dispatch('config/refreshRedditApiBaseUrl').then(() => {
-      this.$store.dispatch('topics/fetchTopics', {}).then(() => { this.loading = false; })
+      this.$store.dispatch('topics/fetchTopics', {}).then(() => { 
+        this.loading = false; 
+        this.recalculateUnitsInViewport(); })
     });
-    this.recalculateUnitsInViewport();
+    
     window.addEventListener('resize', this.$_.debounce(this.recalculateUnitsInViewport, 200));
   },
   //Remove event listener for 'resize'

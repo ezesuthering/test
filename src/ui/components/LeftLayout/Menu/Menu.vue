@@ -1,6 +1,6 @@
 <template>
     <transition name="slide" appear>
-        <div class="menu-container">
+        <div class="menu-container" >
             <div style="" class="menu-header-container"> <span class="menu-header-text"> Reddit Posts </span> </div>
             <div class="menu-content">
                 <transition-group name="list">
@@ -11,8 +11,8 @@
                     </div>
                 </intersect>
             </div>
-            <div class="menu-footer-container" @click.stop="dismissAllTopics"> 
-                <span class="menu-footer-text"> <b-icon class="dismiss-all-icon" icon="x-circle-fill"></b-icon> Dismiss all </span> 
+            <div class="menu-footer-container" > 
+                <span class="menu-footer-text" @click.stop="dismissAllTopics"> <b-icon @click.stop="dismissAllTopics" class="dismiss-all-icon" icon="x-circle-fill"></b-icon> Dismiss all </span> 
             </div>
         </div>
     </transition>
@@ -31,7 +31,8 @@ export default {
     },
     data: () => {
         return {
-            end: false
+            allDismissed: false,
+
         }
     },
     computed: {
@@ -47,19 +48,14 @@ export default {
     methods: {
         //Dispatch fetchMoreTopics action from topics module
         fetchMoreTopics() {
-            this.$store.dispatch('topics/fetchMoreTopics', {})
+            if(!this.allDismissed) {
+                this.$store.dispatch('topics/fetchMoreTopics', {})
+            }
         },
         //Dispatch dismissAllTopics mutation from topics module
         dismissAllTopics() {
+                this.allDismissed = true;
                 this.$store.dispatch('topics/dismissAllTopics');
-        },
-        getMoreTopics() {
-            this.loadingMore = true;
-            this.$store.dispatch('topics/getMoreTopics')
-                .then((r) => {
-                    this.end = r.end;
-                    this.loadingMore = false;
-                })
         }
     }
    
@@ -67,6 +63,7 @@ export default {
 </script>
 
 <style scoped>
+
 .slide-leave-active,
 .slide-enter-active {
   transition: 0.3s;
@@ -113,14 +110,17 @@ export default {
 }
 
 .menu-content {
-    overflow-y: auto;
+    overflow-y: scroll;
     position: absolute;
     height: 88vh;
     height: calc(var(--vh, 1vh) * 88);
     top: 7vh;
     top: calc(var(--vh, 1vh) * 7);
     -ms-overflow-style: none; 
+    -webkit-overflow-scrolling:touch;
     scrollbar-width: none; 
+    z-index: 1;
+    touch-action: pan-y !important;
 }
 
 .menu-content::-webkit-scrollbar {
@@ -146,6 +146,14 @@ export default {
 
 .dismiss-all-icon {
     color: orange;
+}
+
+.dismiss-all-icon:hover {
+    cursor: pointer;
+}
+
+.menu-footer-text:hover {
+    cursor: pointer;
 }
 
 .list-enter-active, .list-leave-active {

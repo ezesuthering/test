@@ -5,7 +5,7 @@
         </b-row>
          <b-row> 
              <b-col cols="12" class="topic-flex-content-container"> 
-                 <img :height="topic.data.thumbnail_height ? topic.data.thumbnail_height : '200'" :width="topic.data.thumbnail_width ? topic.data.thumbnail_width : '200'" @error="onBrokenThumbnail" :src="topic.data.thumbnail" /> 
+                 <img class="topic-image" @error="onBrokenThumbnail" :src="topic.fullImage" /> 
             </b-col> 
         </b-row>
         <b-row> 
@@ -56,5 +56,12 @@ export default {
 
 .topic-title-content {
     text-align: center;
+}
+
+.topic-image {
+    max-width: 70vh;
+    max-height: 70vh;
+    max-width: calc(var(--vh, 1vh) * 70);
+    max-height: calc(var(--vh, 1vh) * 70);
 }
 </style>
