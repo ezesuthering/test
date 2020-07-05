@@ -1,7 +1,7 @@
 <template>
     <div :class=" orientationPortrait ? 'left-layout-container-portrait' : 'left-layout-container-landscape'">
         <Threshold v-show="!active" v-hammer:swipe.right="onSwipeRight" />
-        <Menu v-show="active"  />
+        <Menu v-hammer:swipe.left="onSwipeLeft" style="touch-action: auto;" v-show="active"  />
     </div>
 </template>
 
