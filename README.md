@@ -1,4 +1,3 @@
-Live version (deployed on AWS ec2 instance): http://54.233.118.19/dist_test/
 
 ### Dependencies
 
