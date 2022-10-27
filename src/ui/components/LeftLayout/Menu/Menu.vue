@@ -1,7 +1,7 @@
 <template>
     <transition name="slide" appear>
         <div class="menu-container" >
-            <div style="" class="menu-header-container"> <span class="menu-header-text"> Reddit Posts 33333 </span> </div>
+            <div style="" class="menu-header-container"> <span class="menu-header-text"> Reddit Posts 1 </span> </div>
             <div class="menu-content">
                 <transition-group name="list">
                     <Topic :key="topic.data.id" v-for="topic in topics" :topic="topic"  />
